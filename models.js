@@ -1,33 +1,33 @@
 import mongoose from "mongoose";
 
 const pokemonSchema = new mongoose.Schema({
-    _id: { type: String, required: true },
+    _id: { type: Number, required: true },
     name: { type: String, required: true },
     image: String,
-    moveIds: [String],
-    typeIds: [String],
-    trainerIds: [String]
-});
+    moveIds: [Number],
+    typeIds: [Number],
+    trainerIds: [Number]
+}, { versionKey: false });  // to remove the __v field
 
 const typeSchema = new mongoose.Schema({
-    _id: { type: String, required: true },
+    _id: { type: Number, required: true },
     name: { type: String, required: true },
-    strongAgainstIds: [String],
-    weakAgainstIds: [String]
-});
+    strongAgainstIds: [Number],
+    weakAgainstIds: [Number]
+}, { versionKey: false });
 
 const moveSchema = new mongoose.Schema({
-    _id: { type: String, required: true },
+    _id: { type: Number, required: true },
     name: { type: String, required: true },
     power: Number,
     accuracy: Number
-});
+}, { versionKey: false });
 
 const trainerSchema = new mongoose.Schema({
-    _id: { type: String, required: true },
+    _id: { type: Number, required: true },
     name: { type: String, required: true },
-    pokemonIds: [String]
-});
+    pokemonIds: [Number]
+}, { versionKey: false });
 
 // Create Models
 export const Pokemon = mongoose.model("Pokemon", pokemonSchema);
