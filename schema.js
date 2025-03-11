@@ -38,6 +38,18 @@ export const typeDefs = `#graphql
         trainers: [Trainer]
         trainer(_id: ID!): Trainer   
     }
+
+    Input PokemonInput{
+        name: String!,
+        image: String,
+        moveIds: [ID!],
+        typeIds: [ID!],
+        trainerIds: [ID!]
+    }
+    
+    type Mutation{
+        addPokemon(pokemonInput: PokemonInput): Pokemon
+    }
 `;
 
 //  key data types

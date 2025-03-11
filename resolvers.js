@@ -31,6 +31,50 @@ export const resolvers = {
 
     Trainer: {
         pokemons: async(parent) => await Pokemon.find({ _id: {$in : parent.pokemonIds}}),
-    }
+    },
     
+
+    // MUTATIONS
+
+    Mutation: {
+        addPokemon: async (_, { pokemonInput }) => {    
+        // not as "addPokemon: async (_, args)", 
+        // since { pokemonInput } is effective (Destructuring)
+
+            const { name, moveIds = [], typeIds = [], trainerIds = [] } = pokemonInput;
+            let { image } = pokemonInput;
+
+            const lastPokemon = await Pokemon.findOne({}, { _id: 1 }).sort({ _id: -1 });
+            // {} → No filter (fetches any Pokémon)
+            // { _id: 1 } → Only retrieve the _id field alone
+            // .sort({ _id: -1 }): -1 means descending order (highest _id first)
+
+            _id = lastPokemon ? (parseInt(lastPokemon._id, 10) + 1).toString() : "1";
+
+            if(!image?.trim()){
+                image = undefined;
+            }
+
+            const [existingMoves, existingTypes, existingTrainers] = await Promise.all([
+                Move.find({ _id: { $in: moveIds } }).distinct("_id"),
+                Type.find({ _id: { $in: typeIds } }).distinct("_id"),
+                Trainer.find({ _id: { $in: trainerIds } }).distinct("_id"),
+            ]);
+
+            const invalidMoves = moveIds.filter(id => !existingMoves.includes(id));
+            const invalidTypes = typeIds.filter(id => !existingTypes.includes(id));
+            const invalidTrainers = trainerIds.filter(id => !existingTrainers.includes(id));
+
+            if(invalidMoves.length || invalidTypes.length || invalidTrainers.length) {
+                throw new Error(`Invalid IDs detected:
+                    Moves: ${invalidMoves.length > 0 ? invalidMoves.join(", ") : "None"},
+                    Types: ${invalidTypes.length > 0 ? invalidTypes.join(", ") : "None"},
+                    Trainers: ${invalidTrainers.length > 0 ? invalidTrainers.join(", ") : "None"}
+                `);
+            }
+            const pokemon = new Pokemon({ _id, name, image, moveIds, typeIds, trainerIds });
+            await pokemon.save();
+            return pokemon;
+        }
+    }
 };
