@@ -1,4 +1,4 @@
-## PokeGraphQL-Playground 🎮🚀
+# PokeGraphQL-Playground 🎮🚀
 
 An experimental GraphQL API for Pokémon data using Node.js, MongoDB, and Apollo Server.
 
@@ -10,17 +10,17 @@ An experimental GraphQL API for Pokémon data using Node.js, MongoDB, and Apollo
 
 ## 🔍 Example Queries
 
-# Fetch Pokémon by ID
--query {
-  -getPokemon(id: "pokemon-id") {
-    -name
-    -type
-    -moves {
-      -name
-      -power
-    -}
-  -}
--}
+## Fetch Pokémon by ID
+- query {
+  - getPokemon(id: "pokemon-id") {
+    - name
+    - type
+    - moves {
+      - name
+      - power
+    - }
+  - }
+- }
 
 ## 🛠 Tech Stack
 - Backend: Node.js, Apollo Server
