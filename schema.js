@@ -47,10 +47,24 @@ export const typeDefs = `#graphql
         trainerIds: [Int!]
     }
 
+    input PokemonUpdateInput{
+        name: String,
+        image: String,
+        moveIds: [Int],
+        typeIds: [Int],
+        trainerIds: [Int]
+    }
+
     input TypeInput{
         name: String!
         strongAgainstIds: [Int!],
         weakAgainstIds: [Int!]
+    }
+
+    input TypeUpdateInput{
+        name: String,
+        strongAgainstIds: [Int],
+        weakAgainstIds: [Int]
     }
 
     input MoveInput{
@@ -59,16 +73,38 @@ export const typeDefs = `#graphql
         accuracy: Float!
     }
 
+    input MoveUpdateInput{
+        name: String,
+        power: Int,
+        accuracy: Float
+    }
+
     input TrainerInput{
         name: String!,
         pokemonIds: [Int!]
     }
+
+    input TrainerUpdateInput{
+        name: String,
+        pokemonIds: [Int]
+    }
     
     type Mutation{
         addPokemon(pokemonInput: PokemonInput): Pokemon,
+        updatePokemon(_id: Int!, pokemonInput: PokemonUpdateInput): Pokemon,
+        deletePokemon(_id: Int!): String,
+
         addType(typeInput: TypeInput): Type,
+        updateType(_id: Int!, typeInput: TypeUpdateInput): Type,
+        deleteType(_id: Int!): String,
+
         addMove(moveInput: MoveInput): Move,
-        addTrainer(trainerInput: TrainerInput): Trainer
+        updateMove(_id: Int!, moveInput: MoveUpdateInput): Move,
+        deleteMove(_id: Int!): String,
+
+        addTrainer(trainerInput: TrainerInput): Trainer,
+        updateTrainer(_id: Int!, trainerInput: TrainerUpdateInput): Trainer,
+        deleteTrainer(_id: Int!): String
     }
 `;
 
