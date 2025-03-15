@@ -21,6 +21,7 @@ An experimental GraphQL API for Pokémon data using Node.js, MongoDB, and Apollo
      }
    }
  }
+```
 
 ## 🛠 Tech Stack
 - Backend: Node.js, Apollo Server
